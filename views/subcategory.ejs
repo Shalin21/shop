@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>  
+        <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+    
+    <body>     
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">    
+ <div class="container">        
+    <a class="navbar-brand" href="/" ><%= title %></a>
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="navbar-toggler-icon"></span>
+     </button>	      
+
+     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+         <ul class="navbar-nav ml-auto" >									
+                 <li   style="font-size:24px;" <%if(active=="Mens"){%>class="active"<%}%> >
+                       <a class="nav-link" href="/category/Mens/">Mens</a>
+                 </li>
+                 <li  style="font-size:24px; " <%if(active=="Womens"){%>class="active"<%}%>>
+                       <a class="nav-link" href="/category/Womens/">Womens</a>
+                 </li>													
+         </ul>
+        </div>                           		
+</nav> 
+
+
+<div class="container">
+ <div class="row">
+ <nav aria-label="breadcrumb">
+         <ol class="breadcrumb" style="background: transparent;">
+           <li class="breadcrumb-item"><a href="/">Home</a></li>   
+           <li class="breadcrumb-item"><a href="/category/<%= active %>/"><%= active %></a></li>                          
+           <li class="breadcrumb-item active" aria-current="page"><%= subcat %></li>
+         </ol>
+       </nav>
+     </div>
+</div> 
+
+
+ <div class="container">
+        <% _.each(items, function(topC) { %>
+            <div class="card mb-5" style="padding:15px;">
+                <div class="row mt-3">
+                    <div class="col-9 ">
+                        <h3 class="title"><%= topC.name %></h3>
+                    </div>    
+                    <% if (topC.image) { %>                
+                    <div class="col-9 mb-3">
+                            <img class="category-image" src="/images/categories/<%= topC.id %>.png">
+                    </div>              
+                    <% } %>       
+                </div>
+                <div class="w-100"></div>
+						<div class="col-3">
+							<a href="<%= topC.id %>/" class="btn btn-outline-dark">View products</a>
+						</div> 
+            </div>
+                <% }); %>
+        </div>
+
+    </body>
+    <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+</html>

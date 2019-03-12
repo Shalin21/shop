@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    </head>
+    
+    <body>
+				<nav class="navbar navbar-expand-sm bg-dark navbar-dark">    
+						<div class="container">        
+							 <a class="navbar-brand" href="/" ><%= title %></a>
+
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+								 <span class="navbar-toggler-icon"></span>
+								</button>	      
+
+			<div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto" >									
+					<li   style="font-size:24px;">
+							<a class="nav-link" href="/category/Mens/">Mens</a>
+					</li>
+					<li  style="font-size:24px; ">
+							<a class="nav-link" href="/category/Womens/">Womens</a>
+					</li>													
+			</ul>
+									 </div>
+											 
+				</nav> 
+										
+					<div class="container">
+							<div class="row">
+							<nav aria-label="breadcrumb">
+											<ol class="breadcrumb" style="background: transparent;">										                       
+                                                <li class="breadcrumb-item" ><a href="/">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="/category/<%= active %>/"><%= active %></a></li>      
+                                                <li class="breadcrumb-item"><a href="/category/<%= active %>/<%= subcat %>/"><%= subcat %></a></li>                       
+                                                <li class="breadcrumb-item active" aria-current="page"><%= product %></li>
+											</ol>
+										</nav>
+							</div>
+			</div>
+            <div class="container d-flex flex-cont" >    
+                    <!-- <div class="row">          -->
+                    <% _.each(items, function(topC) { %>  
+                    <div class="col-6">                             
+                <div class="product">
+                  <div class="img-container">
+                    <img src="/images/<%= topC.image_groups[0].images[0].link %>">
+                  </div>
+                  <div class="product-info">
+                    <div class="product-content">
+                      <h1><%= topC.name%></h1>
+                      <% if (topC.page_description[0]!== '<') { %>
+                      <p><%= topC.page_description%></p>   
+                      <% } %>
+                      <div class="buttons">
+                        <span class="button" id="price">$<%= topC.price%></span>
+                        <a class="button buy" href="/product/<%= topC.id%>/">View</a>
+                        <a class="button add" href="#">Add to Cart</a>                       
+                      </div>
+                    </div>
+                </div>    
+            </div>           
+            </div>
+                <% }); %>
+                <!-- </div>  -->
+           
+            </div>
+		</body>		
+		   <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+</html>

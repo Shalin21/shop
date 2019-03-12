@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/slider.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/lightslider.css" />
+    	   <!-- jQuery library -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+
+   
+      
+    </head>
+    
+    <body>
+				<nav class="navbar navbar-expand-sm bg-dark navbar-dark">    
+						<div class="container">        
+							 <a class="navbar-brand" href="/" ><%= title %></a>
+
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+								 <span class="navbar-toggler-icon"></span>
+								</button>	      
+
+			<div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto" >									
+					<li   style="font-size:24px;">
+							<a class="nav-link" href="/category/Mens/">Mens</a>
+					</li>
+					<li  style="font-size:24px; ">
+							<a class="nav-link" href="/category/Womens/">Womens</a>
+					</li>													
+			</ul>
+									 </div>
+											 
+				</nav> 
+										
+					<div class="container">
+							<div class="row">
+							<nav aria-label="breadcrumb">
+											<ol class="breadcrumb" style="background: transparent;">										                       
+                                                <li class="breadcrumb-item" ><a href="/">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="/category/<%= gender %>/"><%= gender %></a></li>      
+                                                <li class="breadcrumb-item"><a href="/category/<%= gender %>/<%= subcat %>/"><%= subcat %></a></li>  
+                                                <li class="breadcrumb-item"><a href="/category/<%= gender %>/<%= subcat %>/<%= norm_type %>/"><%= type %></a></li>                      
+                                                <li class="breadcrumb-item active" aria-current="page"><%= product %></li>
+											</ol>
+										</nav>
+							</div>
+			</div>
+            <div class="container"> 
+              <div class="row">                              
+                    <div class="product product-view" style="width:auto;">
+                            <div class="img-container" >
+                              <!--SLIDER START-->
+                              <ul class="cd-gallery">
+                                  <li>
+                                    <a href="javascript:void(0);">
+                                      <ul class="cd-item-wrapper">
+                                          <% _.each(item.image_groups[0].images, function(image, index) { %>
+                                            <% if(index == 0){ %>
+                                              <li class="selected">
+                                                  <img src="/images/<%= image.link%>" alt="Preview image">
+                                                </li>
+                                          
+                                           <%} else if(index == 1){ %>
+                                            <li class="move-right">
+                                                <img src="/images/<%= image.link%>" alt="Preview image">
+                                              </li>
+                                            <% } else{%>
+                                            <li>
+                                                <img src="/images/<%= image.link%>" alt="Preview image">
+                                              </li>
+                                              <% }%>
+                                          <% }); %>
+                                        
+                                      </ul> 
+                                    </a>
+                              
+                                    
+                                  </li>
+                                  </ul>
+                              <!--SLIDER END-->
+
+                              <!-- <img src="/images/<%= item.image_groups[0].images[0].link %>" style="width: 70%; object-fit: scale-down;"> -->
+                            </div>
+                            <div class="product-info">
+                              <div class="product-content">
+                                <h1><%= item.name %></h1>
+                                <p><%= item.page_description %></p>
+                                <% if (item.long_description[0]=='<'){%>
+                                <%- item.long_description %>
+                                <% } %>
+                                <div class="col-md-6">
+                                  <div class="card " style="padding-left:15px; padding-bottom: 15px;">
+                                      <% _.each(item.variation_attributes, function(variant, index) { %>
+                                        <p style="padding-top: 5px; text-transform: capitalize;"><%= variant.name%></p>
+                                        <div class="demo">
+                                            
+                                              <%if (variant.name.toUpperCase() == 'SIZE') {%>
+                                                <select>
+                                                    <% _.each(variant.values, function(variants, index2) { %>
+                                                      <option><%= variants.name %></option>                                                                             
+                                                      <% }); %> 
+                                                </select>
+                                                
+                                                <% } else{%>
+                                                  <% _.each(variant.values, function(variants, index2) { %>
+                                                    <input type="radio" name="radios<%= variant.name%>" title="<%= variants.name %>">                                                                                   
+                                                    <% }); %> 
+                                                  <%}%>                                           
+                                        </div>
+                                        <% }); %>                                                                          
+                                  </div>
+                                </div>
+                                <div class="buttons">
+                                  <a id="btnBuy" class="button buy" href="#">Buy</a>                                
+                                   <span class="button" id="price"><%= item.price %></span>                           
+                                              <select class="currency-selector">
+                                                <option data-symbol="$" data-placeholder="0.00" selected>USD</option>
+                                                <option data-symbol="€" data-placeholder="0.00">EUR</option>
+                                                <option data-symbol="£" data-placeholder="0.00">GBP</option>                                             
+                                              </select>      
+                                </div>
+                              </div>
+                            </div>     
+                            </div>          
+            </div>
+            <div class="row">
+              <div class="col-12">
+                  <section class="slider">
+                      
+                    </section>
+              </div>
+            </div>
+          </div>        
+    </body>		
+    
+    
+	
+
+<!-- Latest compiled JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/lightslider.js"></script>
+<script src="/javascripts/slider.js"></script>
+<script src="/javascripts/converter.js"></script>
+<script src="/javascripts/zInput.js"></script>
+<script>
+    $(".demo").zInput();
+    </script>
+
+</html>

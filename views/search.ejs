@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+        <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/stylesheets/util.css" />
+        <link rel="stylesheet" href="/stylesheets/main.css" />
+    </head>
+    
+    <body>
+				<nav class="navbar navbar-expand-sm bg-dark navbar-dark">    
+						<div class="container">        
+							 <a class="navbar-brand" href="/" ><%= title %></a>
+
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+								 <span class="navbar-toggler-icon"></span>
+								</button>	      
+
+			<div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto" >									
+					<li   style="font-size:24px;">
+							<a class="nav-link" href="/category/Mens/">Mens</a>
+					</li>
+					<li  style="font-size:24px; ">
+							<a class="nav-link" href="/category/Womens/">Womens</a>
+					</li>													
+			</ul>
+									 </div>
+											 
+				</nav> 
+										
+					<div class="container">
+							<div class="row">
+							<nav aria-label="breadcrumb">
+											<ol class="breadcrumb" style="background: transparent;">										                       
+												<li class="breadcrumb-item active" aria-current="page">Search</li>
+											</ol>
+										</nav>
+										<form action="/search" method="POST">
+											<input type="text" name="name" id="id">
+											<button type="submit">search</button>
+										</form>
+							</div>
+			</div>
+
+			<div class="container">
+                
+                        <div class="wrap-table100">
+                            <div class="table100">
+                                <table>
+                                    <thead>
+                                        <tr class="table100-head">
+                                            <th class="column1"></th>
+                                            <th class="column2">Name</th>
+                                            <th class="column3">Type</th>
+                                            <th class="column4">Price</th>
+                                            <th class="column5">Cart</th>
+                                            <th class="column6">Wish</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <% _.each(items, function(item) { %>
+                                            <tr>
+                                                    <td class="column1"><a href="/product/<%= item.id%>/"><img src="/images/<%= item.image_groups[0].images[0].link %>" style="height: 200px; widht: 200px;"></a></td>
+                                                    <td class="column2"><%= item.name %></td>
+                                                    <td class="column3"><%= item.primary_category_id%></td>
+                                                    <td class="column4">$<%= item.price%></td>
+                                                    <td class="column5"><button class="btn btn-success">Add to cart</button></td>
+                                                    <td class="column6"><button class="btn btn-primary">Add to wishlist</button></td>
+                                                </tr>
+                                            <% }); %>
+                                     </tbody>
+                                    </table>
+                             
+                        </div>
+                    </div>
+			</div>       
+		</body>		
+		   <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+
+
+</html>
