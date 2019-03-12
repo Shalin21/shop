@@ -6,10 +6,14 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.0.1",
     "ejs": "*",
     "express": "3.2.0",
+    "jsonwebtoken": "^8.5.0",
     "lightslider": "^1.1.6",
     "mongodb": "^3.1.13",
+    "mongoose": "^5.4.19",
     "soap": "^0.26.0",
     "underscore": "^1.9.1"
   }
