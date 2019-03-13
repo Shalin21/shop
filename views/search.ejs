@@ -64,11 +64,11 @@
                                     <tbody>
                                             <% _.each(items, function(item) { %>
                                             <tr>
-                                                    <td class="column1"><a href="/product/<%= item.id%>/"><img src="/images/<%= item.image_groups[0].images[0].link %>" style="height: 200px; widht: 200px;"></a></td>
+                                                    <td class="column1"><a href="/product/<%= item.id%>/"><img src="/images/<%= item.image_groups[0].images[0].link %>" style="height: 200px; width: 125.7px;"></a></td>
                                                     <td class="column2"><%= item.name %></td>
                                                     <td class="column3"><%= item.primary_category_id%></td>
                                                     <td class="column4">$<%= item.price%></td>
-                                                    <td class="column5"><button class="btn btn-success">Add to cart</button></td>
+                                                    <td class="column5"><a class="btn btn-success"  href="/cart/add/<%= item.id %>">Add to cart</a></td>
                                                     <td class="column6"><button class="btn btn-primary">Add to wishlist</button></td>
                                                 </tr>
                                             <% }); %>

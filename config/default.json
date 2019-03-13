@@ -1,4 +1,7 @@
 {
     "mongoUrl": "mongodb://localhost:27017/shop",
-    "jwtSecret": "jwt_alexsml"
+    "sessionSecret": "my_secret_session_key",
+    "jwtSecret": "jwt_alexsml",
+    "keyPublishable": "pk_test_uxLcI1pIZ2nVdx28PXgKBlRj",
+    "keySecret": "sk_test_z3sNfj3NnqFjZRr4ObckHb2z"
 }

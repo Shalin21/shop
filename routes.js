@@ -1,7 +1,10 @@
+var Cart = require("./models/Cart");
 exports.index = function(req, res) {
 	var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
 	
+	var newCart = new Cart(req.session.cart ? req.session.cart : {});
+	req.session.cart = newCart;
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
 		var collection = db.collection('categories');
@@ -59,7 +62,6 @@ exports.subcategory = function(req, res) {
 	
 
 	var reg_ex = new RegExp('\\b'+reg_var);
-	 console.log(reg_ex);
 	
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
@@ -83,8 +85,7 @@ exports.subcategory = function(req, res) {
 					return {id: item._id, name: item._id.replace(/-/g, ' ').slice(item._id.search('clothing')+"clothing".length).trim(), image: image};
 				}
 					return {id: item._id, name: item._id.slice(item._id.lastIndexOf("-")+1), image: image};								
-			})
-			 console.log(categories);
+			})			
 			res.render("subcategory", { 
 				// Underscore.js lib
 				_     : _, 				
@@ -107,6 +108,11 @@ exports.productsList = function(req, res) {
 	var cat = req.params.cat;
 	var subcat = req.params.subcat;
 	var product = req.params.product;
+	if(req.session) {console.log(req.session.cart)}
+	else{
+		console.log("session is empty");
+		
+	}
 	
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
@@ -119,7 +125,7 @@ exports.productsList = function(req, res) {
 				_     : _, 
 				
 				// Template data
-				title : "Shopifyzed",
+				title : "Shopifyzed",				
 				items : items,
 				subcat: subcat,
 				product: product.replace(/-/g, ' ').slice(product.search('clothing')+"clothing".length).trim(),

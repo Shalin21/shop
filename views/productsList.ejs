@@ -3,7 +3,8 @@
     <head>
         <title><%= title %></title>
 		<link rel="stylesheet" href="/stylesheets/style.css" />
-		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     </head>
     
     <body>
@@ -20,6 +21,9 @@
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                       </form> 
             </div> 
+            <i class="fas fa-shopping-cart fa-2x" style="color: white;"></i>           
+              <span class="badge badge-light"><%=session.cart.totalQty%></span>
+           
 			<div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto" >									
 					<li   style="font-size:24px;">
@@ -62,7 +66,8 @@
                       <div class="buttons">
                         <span class="button" id="price">$<%= topC.price%></span>
                         <a class="button buy" href="/product/<%= topC.id%>/">View</a>
-                        <a class="button add" href="#">Add to Cart</a>                       
+
+                        <a class="button add" href="/cart/add/<%= topC.id %>">Add to Cart</a>                       
                       </div>
                     </div>
                 </div>    
