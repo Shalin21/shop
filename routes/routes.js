@@ -1,35 +1,14 @@
-var Cart = require("./models/Cart");
-exports.index = function(req, res) {
-	var _         = require("underscore");
-	var mdbClient = require('mongodb').MongoClient;
-	
-	var newCart = new Cart(req.session.cart ? req.session.cart : {});
-	req.session.cart = newCart;
-	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
-		var db = client.db('shop');
-		var collection = db.collection('categories');
-		
-		collection.find().toArray(function(err, items) {
-			res.render("index", { 
-				// Underscore.js lib
-				_     : _, 
-				
-				// Template data
-				title : "Shopifyzed",
-				items : items
-			});
+var express = require('express');
+var router = express.Router();
 
-			client.close();
-		});
-	});
-};
+var Cart = require("../models/Cart");
 
-exports.category = function(req, res) {
+
+router.get("/category/:cat/", function(req, res, next) {
 	var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
 	var cat = req.params.cat;
 	
-	console.log(cat);
 	
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
@@ -49,9 +28,10 @@ exports.category = function(req, res) {
 			client.close();
 		});
 	});
-};
+});
 
-exports.subcategory = function(req, res) {
+
+router.get("/category/:cat/:subcat/", function(req, res, next) {
 	var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
 	var fs = require("fs");
@@ -99,21 +79,15 @@ exports.subcategory = function(req, res) {
 			client.close();
 		});
 	});
-};
+});
 
-exports.productsList = function(req, res) {
+router.get("/category/:cat/:subcat/:product/", function(req, res, next) {
 	var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
 
 	var cat = req.params.cat;
 	var subcat = req.params.subcat;
 	var product = req.params.product;
-	if(req.session) {console.log(req.session.cart)}
-	else{
-		console.log("session is empty");
-		
-	}
-	
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
 		var collection = db.collection('products');
@@ -135,9 +109,9 @@ exports.productsList = function(req, res) {
 			client.close();
 		});
 	});
-};
+});
 
-exports.product = function(req, res) {
+router.get("/product/:id/", function(req, res, next) {
 	var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
 
@@ -163,4 +137,32 @@ exports.product = function(req, res) {
 			client.close();
 		}));
 	});
-};
+});
+
+router.get("/", function(req, res, next) {
+	req.session.errors = null;
+	var _         = require("underscore");
+	var mdbClient = require('mongodb').MongoClient;
+	
+	var newCart = new Cart(req.session.cart ? req.session.cart : {});
+	req.session.cart = newCart;
+	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
+		var db = client.db('shop');
+		var collection = db.collection('categories');
+		
+		collection.find().toArray(function(err, items) {
+			res.render("index", { 
+				// Underscore.js lib
+				_     : _, 
+				
+				// Template data
+				title : "Shopifyzed",
+				items : items
+			});
+
+			client.close();
+		});
+	});
+});
+
+module.exports = router;

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+        <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/stylesheets/login.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    </head>
+    
+    <body>
+        
+            <div class="container">
+                   
+    
+                    <div class="card bg-light" style="margin-top: 150px">
+                    <article class="card-body mx-auto" style="max-width: 400px;">
+                        <h4 class="card-title mt-3 text-center">Sign in</h4>  
+                        <% if(session.errors) {%>
+                            <p class="text-center" style="color:firebrick">
+                                    <%=session.errors%>
+                                </p>
+                            <%}%>                    
+                        <p>                          
+                            <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+                        </p>
+                        <p class="divider-text">
+                            <span class="bg-light">OR</span>
+                        </p>
+                        <form action="/user/signin" method="POST">
+                        
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                             </div>
+                            <input name="email" class="form-control" placeholder="Email address" type="email">
+                        </div> <!-- form-group// -->
+                         <!-- form-group// -->                       
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input name="password" class="form-control" placeholder="Password" type="password">
+                        </div> <!-- form-group// -->                                                      
+                        <div class="form-group">
+                                
+                                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                            <button type="submit" class="btn btn-primary btn-block"> Sign in </button>
+                        </div> <!-- form-group// -->      
+                        <p class="text-center">Dont have an account? <a href="/user/signup">Sign Up</a> </p>                                                                 
+                    </form>
+                    </article>
+                    </div> <!-- card.// -->
+                    
+                    </div> 
+                    <!--container end.//-->
+                    
+                   
+                    </article>
+	</body>		
+		   <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="/javascripts/bootstrap.min.js"></script>
+
+
+</html>
