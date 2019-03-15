@@ -1,0 +1,16 @@
+<% if(session.viewed) {%>
+    <div class="card bg-light" style="margin-top: 25px">
+            <article class="card-body mx-auto" style="max-width: 400px;">
+                <h4 class="card-title mt-3 text-center">Recently Viewed</h4>  
+                
+                    <% session.viewed.forEach(function(view) { %>
+                    <div class="form-group input-group" style="justify-content: center;">
+                    <a class="btn btn-info" href="/product/<%=view.id%>">
+                            <%=view.name%>
+                    </a>
+                    </div>
+                    <% }); %>
+                                                                     
+            </article>
+            </div> <!-- card.// -->
+            <%}%> 

@@ -5,6 +5,7 @@ var express = require("express")
   , errorhandler = require('errorhandler')
   , routes  = require("./routes/routes")
   , cart_routes  = require("./routes/cart/routes")
+  , wishlist  = require("./routes/wishlist/routes")
   , search = require("./routes/search/routes")
   , auth = require("./routes/auth/routes")
   , mongoose = require("mongoose")
@@ -62,6 +63,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // App routes
 app.use("/cart", cart_routes);
+app.use("/wishlist", wishlist);
 app.use("/search", search);
 app.use("/user", auth);
 app.use("/", routes);

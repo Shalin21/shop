@@ -10,7 +10,7 @@
     
     <body>
         
-            <%- include('./modules/header')%>
+            <%- include('../modules/header')%>
 
 			<div class="container mt-5">
                 
@@ -23,8 +23,8 @@
                                             <th class="column2">Name</th>
                                             <th class="column3">Type</th>
                                             <th class="column4">Price</th>
-                                            <th class="column5">Cart</th>
-                                            <th class="column6">Wish</th>
+                                            <th class="column5"></th>
+                                            <th class="column6"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -34,8 +34,8 @@
                                                     <td class="column2"><%= item.name %></td>
                                                     <td class="column3"><%= item.primary_category_id%></td>
                                                     <td class="column4">$<%= item.price%></td>
-                                                    <td class="column5"><a class="btn btn-success"  href="/cart/add/<%= item.id %>">Add to cart</a></td>
-                                                    <td class="column6"><a class="btn btn-success"  href="/wishlist/add/<%= item.id %>?name=<%= item.name %>">Add to wishlist</a></td>
+                                                    <td class="column5"></td>
+                                                    <td class="column6"><a class="btn btn-success"  href="/cart/add/<%= item.id %>">Add to cart</a></td>
                                                 </tr>
                                             <% }); %>
                                      </tbody>

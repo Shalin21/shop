@@ -114,14 +114,26 @@ router.get("/category/:cat/:subcat/:product/", function(req, res, next) {
 router.get("/product/:id/", function(req, res, next) {
 	var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
-
-
 	var id = req.params.id;
+	var viewed = req.session.viewed || [];
+	
+	
 	
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
 		var collection = db.collection('products');	
-		collection.findOne({id: id}, (function(err, item) {			
+		collection.findOne({id: id}, (function(err, item) {	
+			if(!viewed.includes(id)){
+				if(viewed.length >=3){
+					viewed.shift();
+					viewed.push({id, name:item.name});
+					req.session.viewed = viewed;
+				}
+				else{
+					viewed.push({id, name:item.name});
+					req.session.viewed = viewed;
+				}
+			}		
 			res.render("product", { 
 				// Underscore.js lib
 				_     : _, 				

@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var csrf = require("csurf");
 var passport = require("passport");
-
+var Wishlist = require("../../models/Wishlist");
 
 router.use(csrf());
 
@@ -15,11 +15,16 @@ router.get('/signin', function(req, res, next){
     });
 
 router.get('/profile', isLoggedIn, function(req, res, next){
-      res.render("user/profile", { 
-        title : "Shopifyzed",
-        csrfToken: req.csrfToken()
+  var userId = req.session.user.email;
+  Wishlist.findOne({user: userId}, function(err, item){
+    res.render("user/profile", { 
+      title : "Shopifyzed",
+      wishLength: item ? item.items.length : 0,
+      csrfToken: req.csrfToken()
     });
-    });
+  });
+      
+  });
 
 router.get('/signup', function(req, res, next){
       res.render("user/signup", { 
@@ -29,7 +34,7 @@ router.get('/signup', function(req, res, next){
     });
     
 router.post('/signup', passport.authenticate('local.signup',{
-      successRedirect : '/user/signin',
+      successRedirect : '/',
       failureRedirect: '/user/signup',
     }));
     
@@ -37,6 +42,10 @@ router.post('/signin', passport.authenticate('local.signin',{
       successRedirect : '/',
       failureRedirect: '/user/signin',
     }));
+router.get('/logout', function(req, res){
+      req.logout();
+      res.redirect('/');
+    });
 
     module.exports = router;
 

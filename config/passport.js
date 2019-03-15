@@ -1,6 +1,7 @@
 var passport = require("passport");
 const bcrypt = require("bcryptjs");
 var User = require("../models/User");
+var Wishlist = require("../models/Wishlist");
 var LocalStrategy = require("passport-local").Strategy;
 
 passport.serializeUser(function(user, done){
@@ -37,6 +38,11 @@ passport.use('local.signup', new LocalStrategy({
             email,
             password
         });
+        var newWishlist = new Wishlist({
+            user: newUser.email,
+            items:[]
+        });
+        newWishlist.save();
         bcrypt.genSalt(10, (err, salt)=>{
             bcrypt.hash(newUser.password, salt, (err, hash)=>{
                 if(err) throw err;
@@ -44,8 +50,12 @@ passport.use('local.signup', new LocalStrategy({
                 newUser.save(function(err, result){
                     if(err) return done(err);
                     req.session.errors = null;
+                    var protectedUser = newUser;
+                    protectedUser.password = "this_is_not_real_password";       
+                    req.session.user = protectedUser;
                     return done(null, newUser);
                 })
+                
             })
         });             
     });
@@ -57,8 +67,8 @@ passport.use('local.signin', new LocalStrategy({
     passReqToCallback: true           // added to get field from form
         
 }, function(req, email, password, done){
-    console.log("Doshli");
     User.findOne({'email':email}, function(err, user){
+        console.log(user);
         if(err) {
             console.log(err);           
             return done(err);
@@ -80,6 +90,7 @@ passport.use('local.signin', new LocalStrategy({
             req.session.errors = null;
             var protectedUser = user;
             protectedUser.password = "this_is_not_real_password";
+
             req.session.user = protectedUser;
             return done(null, user);          
         });        
