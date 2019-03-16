@@ -7,7 +7,7 @@ var nodemailer = require('nodemailer');
 router.get('/add/:id',isLoggedIn, function(req, res, next) {	
     var item_name = req.query.name;
     var productId = req.params.id;
-    var userId = req.session.user.email;
+    var userId = req.session.userEmail;
     var itemExists = false;
     Wishlist.findOne({user: { $eq: userId }}, function(err, item){
         itemExists = false;
@@ -56,7 +56,7 @@ router.get('/add/:id',isLoggedIn, function(req, res, next) {
 
 router.get('/remove/:id',isLoggedIn, function(req, res, next) {
     var productId = req.params.id;
-    var userId = req.session.user.email; 
+    var userId = req.session.userEmail; 
     Wishlist.update(
             { user: userId }, 
             { $pull: { items: {product: productId} } }, function(err, item){
@@ -71,7 +71,7 @@ router.get('/remove/:id',isLoggedIn, function(req, res, next) {
 router.get('/', isLoggedIn, function(req, res, next) {
     var _         = require("underscore");
 	var mdbClient = require('mongodb').MongoClient;
-    var userId = req.session.user.email; 
+    var userId = req.session.userEmail; 
 	Wishlist.findOne({user: userId}, function(err, item){
         var idArray = [];   
         item.items.map(function(id){idArray.push(id.product)});

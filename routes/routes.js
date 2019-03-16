@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
+const bcrypt = require("bcryptjs");
+var nodemailer = require('nodemailer');
+var User = require("../models/User");
 var Cart = require("../models/Cart");
 
 
@@ -116,21 +118,24 @@ router.get("/product/:id/", function(req, res, next) {
 	var mdbClient = require('mongodb').MongoClient;
 	var id = req.params.id;
 	var viewed = req.session.viewed || [];
-	
+	var newItem = {};
 	
 	
 	mdbClient.connect("mongodb://localhost:27017",{ useNewUrlParser: true }, (err, client) => {
 		var db = client.db('shop');
 		var collection = db.collection('products');	
 		collection.findOne({id: id}, (function(err, item) {	
-			if(!viewed.includes(id)){
+			newItem = {id, name:item.name};
+			let hasItem = viewed.some( view => view.id === id );
+			
+			if(!hasItem){
 				if(viewed.length >=3){
 					viewed.shift();
-					viewed.push({id, name:item.name});
+					viewed.push(newItem);
 					req.session.viewed = viewed;
 				}
 				else{
-					viewed.push({id, name:item.name});
+					viewed.push(newItem);
 					req.session.viewed = viewed;
 				}
 			}		
@@ -176,5 +181,47 @@ router.get("/", function(req, res, next) {
 		});
 	});
 });
+
+router.post('/password/reset', function(req, res){
+	var email = req.body.email;
+	var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+	var newPassword = randPassword;
+ 
+   bcrypt.genSalt(10, (err, salt)=>{
+	bcrypt.hash(randPassword, salt, (err, hash)=>{
+		if(err) throw err;
+		User.findOneAndUpdate({email}, {$set: { password: hash }}, {upsert: true}, function(err){
+		  if (err) return res.send(500, { error: err });
+		   var transporter = nodemailer.createTransport({
+			 service: 'gmail',
+			 auth: {
+			   user: 'dinnhall123@gmail.com',
+			   pass: 'asddsa123'
+			 }
+		   });
+		   
+		   var mailOptions = {
+			 from: 'dinnhall123@gmail.com',
+			 to: email,
+			 subject: 'You added item to wishlist',
+			 text: 'Hello! We would inform you that you new password is: '+newPassword+' you can change it in your profile'
+		   };
+		   
+		   transporter.sendMail(mailOptions, function(error, info){
+			 if (error) {
+			   console.log(error);
+			 } else {
+			   console.log('Email sent: ' + info.response);
+			 }
+		   });  
+		   return res.send("succesfully saved");
+			res.send('/user/signin');
+		 })
+		 
+	 })
+ });
+   
+ });
+
 
 module.exports = router;

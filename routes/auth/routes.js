@@ -1,7 +1,10 @@
 var express = require("express");
 var router = express.Router();
+const bcrypt = require("bcryptjs");
 var csrf = require("csurf");
 var passport = require("passport");
+var nodemailer = require('nodemailer');
+var User = require("../../models/User");
 var Wishlist = require("../../models/Wishlist");
 
 router.use(csrf());
@@ -15,14 +18,18 @@ router.get('/signin', function(req, res, next){
     });
 
 router.get('/profile', isLoggedIn, function(req, res, next){
-  var userId = req.session.user.email;
-  Wishlist.findOne({user: userId}, function(err, item){
-    res.render("user/profile", { 
-      title : "Shopifyzed",
-      wishLength: item ? item.items.length : 0,
-      csrfToken: req.csrfToken()
+  var userId = req.session.userEmail;
+  User.findOne({email:userId}, function(err, user){
+    Wishlist.findOne({user: userId}, function(err, item){
+      res.render("user/profile", { 
+        title : "Shopifyzed",
+        user,
+        wishLength: item ? item.items.length : 0,
+        csrfToken: req.csrfToken()
+      });
     });
-  });
+  })
+  
       
   });
 
@@ -46,6 +53,7 @@ router.get('/logout', function(req, res){
       req.logout();
       res.redirect('/');
     });
+
 
     module.exports = router;
 

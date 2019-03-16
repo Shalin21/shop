@@ -43,21 +43,19 @@ passport.use('local.signup', new LocalStrategy({
             items:[]
         });
         newWishlist.save();
-        bcrypt.genSalt(10, (err, salt)=>{
-            bcrypt.hash(newUser.password, salt, (err, hash)=>{
+            bcrypt.hash(newUser.password, 10, (err, hash)=>{
                 if(err) throw err;
+                console.log(hash);              
                 newUser.password = hash;
                 newUser.save(function(err, result){
                     if(err) return done(err);
-                    req.session.errors = null;
-                    var protectedUser = newUser;
-                    protectedUser.password = "this_is_not_real_password";       
-                    req.session.user = protectedUser;
+                    req.session.errors = null;                      
+                    req.session.userEmail = newUser.email;
                     return done(null, newUser);
                 })
                 
             })
-        });             
+                    
     });
 }));
 
@@ -68,31 +66,44 @@ passport.use('local.signin', new LocalStrategy({
         
 }, function(req, email, password, done){
     User.findOne({'email':email}, function(err, user){
-        console.log(user);
+        //console.log(user);
         if(err) {
-            console.log(err);           
+            //console.log(err);           
             return done(err);
         }
              
         if(!user) {
-            console.log("Email is not registered");
+           // console.log("Email is not registered");
             req.session.errors = null;
             req.session.errors = "Email is not registered";
             return done(null, false);
         }     
-        bcrypt.compare(password, user.password, function(err, res) {          
+       // console.log(user.password);
+        
+        bcrypt.compare(password, user.password, function(err, res) {  
+            //console.log();
+                    
             if(err) {
-                console.log("Wrong password");
+               // console.log("Wrong password");
                 req.session.errors = null;
                 req.session.errors = "Wrong password";
                 return done(null, false);
             }
-            req.session.errors = null;
-            var protectedUser = user;
-            protectedUser.password = "this_is_not_real_password";
-
-            req.session.user = protectedUser;
-            return done(null, user);          
+            if(res){
+                req.session.errors = null;
+                var protectedUser = user;
+                protectedUser.password = "this_is_not_real_password";
+                req.session.userEmail = user.email;
+               // req.session.user = protectedUser;
+                return done(null, user); 
+            }
+            else{
+               // console.log("Wrong password");
+                req.session.errors = null;
+                req.session.errors = "Wrong password";
+                return done(null, false);
+            }
+                     
         });        
     });
 }));
