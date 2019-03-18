@@ -22,7 +22,7 @@
                                 </p>
                             <%}%>                    
                         <p>                          
-                            <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+                            <a href="/user/auth/google" class="btn btn-block btn-danger"> <i class="fab fa-google"></i>   Login via Google</a>
                         </p>
                         <p class="divider-text">
                             <span class="bg-light">OR</span>
@@ -47,8 +47,26 @@
                                 <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                             <button type="submit" class="btn btn-primary btn-block"> Sign in </button>
                         </div> <!-- form-group// -->      
-                        <p class="text-center">Dont have an account? <a href="/user/signup">Sign Up</a> </p>                                                                 
+                        <p class="text-center">Dont have an account? <a href="/user/signup">Sign Up</a> </p>   
+                        <p class="text-center">Forgot your password? <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Reset it</button> </p>    
+                        
                     </form>
+                    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <form action="/update/password/reset" method="POST">
+                    
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                                         </div>
+                                        <input name="email" class="form-control" placeholder="Email address" type="email">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block"> Reset </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>    
                     </article>
                     </div> <!-- card.// -->
                     

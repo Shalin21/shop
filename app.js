@@ -8,6 +8,7 @@ var express = require("express")
   , wishlist  = require("./routes/wishlist/routes")
   , search = require("./routes/search/routes")
   , auth = require("./routes/auth/routes")
+  , update = require("./routes/auth/reset")
   , mongoose = require("mongoose")
   , config = require('config')
   , session = require('express-session')
@@ -65,6 +66,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/cart", cart_routes);
 app.use("/wishlist", wishlist);
 app.use("/search", search);
+app.use("/update", update);
 app.use("/user", auth);
 app.use("/", routes);
 

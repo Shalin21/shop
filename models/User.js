@@ -13,6 +13,10 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
     },
+    isEnabled:{
+        type: Boolean,
+        required: true,
+    },
     password:{
         type: String,
         required: true,

@@ -37,13 +37,13 @@ router.get('/add/:id',isLoggedIn, function(req, res, next) {
                         text: 'Hello! We would inform you that '+item_name+' was successfuly added to you wishlist. Enjoy your shopping'
                       };
                       
-                    //   transporter.sendMail(mailOptions, function(error, info){
-                    //     if (error) {
-                    //       console.log(error);
-                    //     } else {
-                    //       console.log('Email sent: ' + info.response);
-                    //     }
-                    //   });            
+                      transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                          //console.log(error);
+                        } else {
+                          //console.log('Email sent: ' + info.response);
+                        }
+                      });            
                 });
         }
         res.redirect("/wishlist");

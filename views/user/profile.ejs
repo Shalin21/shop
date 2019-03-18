@@ -27,8 +27,19 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                              </div>
-                            <input id="email" name="email" class="form-control" placeholder="<%= user.email%>" type="email" disabled>
+                            <input id="email" name="email" class="form-control" placeholder="<%= user.email%>" style="color:red" type="email" disabled title="Email is not verified">
+                            
                         </div> <!-- form-group// -->
+                        <% if(!user.isEnabled) {%>
+                            <p class="text-center" style="color:firebrick">
+                                Email is not verified
+                            </p>
+                            <%} else {%>
+                                <p class="text-center" style="color:green">
+                                    Email is verified
+                                </p>
+                        <%}%> 
+                       
                          <!-- form-group// -->                       
                         <div class="form-group input-group">
                             <div class="input-group-prepend">

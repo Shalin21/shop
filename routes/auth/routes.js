@@ -53,7 +53,16 @@ router.get('/logout', function(req, res){
       req.logout();
       res.redirect('/');
     });
+router.get('/auth/google', passport.authenticate('google', {
+  scope: [
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email'
+  ]
+}));
 
+router.get('/auth/google/callback',
+  passport.authenticate('google', { successRedirect: '/',
+                                      failureRedirect: '/user/signup' }));
 
     module.exports = router;
 
