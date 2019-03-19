@@ -3,12 +3,10 @@ var router = express.Router();
 const bcrypt = require("bcryptjs");
 var csrf = require("csurf");
 var passport = require("passport");
-var nodemailer = require('nodemailer');
 var User = require("../../models/User");
 var Wishlist = require("../../models/Wishlist");
 
 router.use(csrf());
-
 
 router.get('/signin', function(req, res, next){
       res.render("user/login", { 
@@ -63,6 +61,27 @@ router.get('/auth/google', passport.authenticate('google', {
 router.get('/auth/google/callback',
   passport.authenticate('google', { successRedirect: '/',
                                       failureRedirect: '/user/signup' }));
+router.post('/info/update', function(req, res){
+	req.session.errors = null;
+	var name = req.body.name;
+	var email = req.session.userEmail;
+  var password = req.body.password;
+
+  
+	if(password != req.body.repeat_password){
+		req.session.errors = null;
+		req.session.errors = "Passwords dont match";
+		res.redirect("/user/profile");
+	}
+	bcrypt.genSalt(10, (err, salt)=>{
+		bcrypt.hash(password, salt, (err, hash)=>{
+     
+			User.findOneAndUpdate({email}, {$set: { name, password:hash }}, {upsert: true}, function(err, user){     
+			res.redirect("/user/profile");
+		})		
+		})
+	})
+});
 
     module.exports = router;
 

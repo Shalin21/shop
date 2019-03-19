@@ -15,19 +15,24 @@
     
                     <div class="card bg-light" style="margin-top: 150px">
                     <article class="card-body mx-auto" style="max-width: 400px;">
-                        <h4 class="card-title mt-3 text-center">Account</h4>                     
-                        <form action="/user/update" method="POST">
+                        <h4 class="card-title mt-3 text-center">Account</h4>        
+                        <% if(session.errors) {%>
+                            <p class="text-center" style="color:firebrick">
+                                <%=session.errors%>
+                            </p>
+                            <%}%>             
+                        <form action="/user/info/update" method="POST">
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                              </div>
-                            <input id="name" name="name" class="form-control" placeholder="<%= user.name%>" type="text" required>
+                            <input id="name" name="name" class="form-control" placeholder="<%= user.name%>" value="<%= user.name%>" type="text" required>
                         </div> <!-- form-group// -->
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                              </div>
-                            <input id="email" name="email" class="form-control" placeholder="<%= user.email%>" style="color:red" type="email" disabled title="Email is not verified">
+                            <input id="email" name="email" class="form-control" placeholder="<%= user.email%>" value="<%= user.email%>" type="email" disabled title="Email is not verified">
                             
                         </div> <!-- form-group// -->
                         <% if(!user.isEnabled) {%>

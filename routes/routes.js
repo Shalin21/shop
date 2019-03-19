@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 var nodemailer = require('nodemailer');
 var User = require("../models/User");
 var Cart = require("../models/Cart");
-
+var share = require('social-share');
 
 router.get("/category/:cat/", function(req, res, next) {
 	var _         = require("underscore");
@@ -155,6 +155,17 @@ router.get("/product/:id/", function(req, res, next) {
 		}));
 	});
 });
+
+router.get("/product/:id/share", function(req, res, next) {
+	var id = req.params.id;
+	var url = share('facebook',{
+		title : 'Check this amazing cloth shop',
+		//url: 'http://vk.com'
+		url: 'http://localhost/product/'+id+'/',
+	  })
+	  res.redirect(url);
+	  //res.redirect(`/product/${id}/`);
+})
 
 router.get("/", function(req, res, next) {
 	req.session.errors = null;

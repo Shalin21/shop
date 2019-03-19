@@ -9,7 +9,7 @@ router.post('/password/reset', function(req, res){
 	var randPassword = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
 	var newPassword = randPassword;
   
-   bcrypt.genSalt(10, (err, salt)=>{
+  bcrypt.genSalt(10, (err, salt)=>{
 	bcrypt.hash(randPassword, salt, (err, hash)=>{
 		if(err) throw err;
 		User.findOneAndUpdate({email}, {$set: { password: hash }}, {upsert: true}, function(err){
@@ -42,14 +42,14 @@ router.post('/password/reset', function(req, res){
 		 
 	 })
  });
-   
  });
 
  router.get('/email/verify', function(req, res){
 		var email = req.query.email;
 		User.findOneAndUpdate({email}, {$set: { isEnabled: true }}, {upsert: true}, function(err){
 				res.redirect("/user/signin");
-		});
-
+		})
  });
+ 
+
  module.exports = router;
