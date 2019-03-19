@@ -19,10 +19,11 @@ var express = require("express")
   , stripe = require("stripe")("sk_test_z3sNfj3NnqFjZRr4ObckHb2z")
   , passport = require("passport");
 var app     = express();
-
+const CONNECTION_URI = process.env.MONGODB_URI || config.get("mongoUrl")
+const PORT = process.env.PORT || 80 
 //Mongo connection
 mongoose
-  .connect(config.get("mongoUrl"))
+  .connect(CONNECTION_URI)
   .then(()=>{console.log("MongoDB connected...")})
   .catch(error=>{console.log(error);})
 
@@ -36,7 +37,7 @@ mongoose
 
 app.use(cookieParser());
 //app.use(express.cookieParser("61d333a8-6325-4506-96e7-a180035cc26f"));
-app.set("port", 80);
+app.set("port", PORT);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(express.static('public'));
