@@ -19,8 +19,11 @@ var express = require("express")
   , stripe = require("stripe")("sk_test_z3sNfj3NnqFjZRr4ObckHb2z")
   , passport = require("passport");
 var app     = express();
-const CONNECTION_URI = process.env.MONGODB_URI || config.get("mongoUrl")
-const PORT = process.env.PORT || 80 
+const CONNECTION_URI = process.env.OPENSHIFT_MONGODB_DB_URL || config.get("mongoUrl")
+const PORT = process.env.OPENSHIFT_NODEJS_PORT || 80 
+
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+
 //Mongo connection
 mongoose
   .connect(CONNECTION_URI)
@@ -73,6 +76,6 @@ app.use("/", routes);
 
 
 // Run server
-http.createServer(app).listen(app.get("port"), function() {
+http.createServer(app).listen(app.get("port"),server_ip_address, function() {
 	console.log("Express server listening on port " + app.get("port"));
 });
