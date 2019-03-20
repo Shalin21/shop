@@ -22,7 +22,7 @@ var app     = express();
 const CONNECTION_URI = process.env.OPENSHIFT_MONGODB_DB_URL || config.get("mongoUrl")
 const PORT = process.env.OPENSHIFT_NODEJS_PORT || 80 
 
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0'
 
 //Mongo connection
 mongoose
